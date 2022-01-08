@@ -24,9 +24,16 @@ public class Membre {
 
     private String email;
 
+
+    @NotNull
+    private String genre;
+
     @NotNull
     private String telephone;
-    private String telephoneReferent;
+
+
+    @NotNull
+    private String telephoneReferant;
 
     @NotNull
     private String numCarteElecteur;
@@ -35,5 +42,5 @@ public class Membre {
 
     @NotNull
     @OneToOne
-    private District quartier;
+    private Commune quartier;
 }

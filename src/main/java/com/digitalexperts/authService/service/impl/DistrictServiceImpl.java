@@ -16,36 +16,41 @@ import java.util.Optional;
 @Service
 public class DistrictServiceImpl implements DistrictService {
 
-    private final DistrictRepository DistrictRepository;
+    private final DistrictRepository districtRepository;
 
-    public DistrictServiceImpl(DistrictRepository DistrictRepository) {
-        this.DistrictRepository = DistrictRepository;
+    public DistrictServiceImpl(DistrictRepository districtRepository) {
+        this.districtRepository = districtRepository;
     }
 
 
     @Override
     public Flux<District> findAllBy() {
-        return Flux.fromIterable( DistrictRepository.findAllBy());
+        return Flux.fromIterable( districtRepository.findAllBy());
     }
 
     @Override
     public Flux<District> findAllByDepartement_Id(Long id) {
-        return Flux.fromIterable( DistrictRepository.findAllByDepartement_Id(id));
+        return Flux.fromIterable( districtRepository.findAllByDepartement_Id(id));
     }
 
     @Override
     public Flux<District> findAllByDepartement_Region_Id(Long id) {
-        return Flux.fromIterable( DistrictRepository.findAllByDepartement_Region_Id(id));
+        return Flux.fromIterable( districtRepository.findAllByDepartement_Region_Id(id));
     }
 
     @Override
     public Flux<District> findAllByArrondissement_Id(Long id) {
-       return Flux.fromIterable(DistrictRepository.findAllByArrondissement_Id(id));
+       return Flux.fromIterable(districtRepository.findAllByArrondissement_Id(id));
     }
 
     @Override
     public Optional<District> findOneById(Long id) {
-      return   DistrictRepository.findById(id);
+      return   districtRepository.findById(id);
+    }
+
+    @Override
+    public District findbyName(String name) {
+        return districtRepository.findByLibelleEqualsIgnoreCase(name);
     }
 }
 

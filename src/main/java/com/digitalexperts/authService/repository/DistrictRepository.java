@@ -19,4 +19,6 @@ public interface DistrictRepository extends CrudRepository<District, Long> {
 
     List<District> findAllByArrondissement_Id(Long id);
 
+    District findByLibelleEqualsIgnoreCase(String libelle);
+
 }

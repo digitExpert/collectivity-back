@@ -2,10 +2,7 @@ package com.digitalexperts.authService.controllers;
 
 import com.digitalexperts.authService.bo.Account;
 import com.digitalexperts.authService.bo.Membre;
-import com.digitalexperts.authService.service.AccountService;
-import com.digitalexperts.authService.service.IRoleService;
-import com.digitalexperts.authService.service.MemberService;
-import com.digitalexperts.authService.service.UserService;
+import com.digitalexperts.authService.service.*;
 import com.digitalexperts.authService.service.exceptions.UserExceptions;
 import com.digitalexperts.authService.utils.RoleConstants;
 import org.slf4j.Logger;
@@ -31,6 +28,8 @@ public class UserController {
 
 	private final MemberService memberService;
 
+	private final DistrictService districtService;
+
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final IRoleService roleService;
 
@@ -38,24 +37,29 @@ public class UserController {
 	private final Logger log = LoggerFactory.getLogger(UserController.class);
 
 
-	public UserController(UserService userService, AccountService accountService, MemberService memberService, BCryptPasswordEncoder passwordEncoder, IRoleService roleService) {
+	public UserController(UserService userService, AccountService accountService, MemberService memberService, DistrictService districtService, BCryptPasswordEncoder passwordEncoder, IRoleService roleService) {
 		super();
 		this.userService = userService;
 		this.accountService = accountService;
 		this.memberService = memberService;
+		this.districtService = districtService;
 		this.passwordEncoder = passwordEncoder;
 		this.roleService = roleService;
 	}
 	
-	@PostMapping("/mew-member")
+	@PostMapping("/new-member")
 	public ResponseEntity<Membre> addNewMember(@RequestBody @Valid Membre membre) throws UserExceptions {
 
 		log.info("request to add new member : {}",membre);
 
 		if(Objects.isNull(membre.getId()) && Objects.isNull(memberService.findIfExists(membre.getNom(),membre.getPrenom(),membre.getTelephone()))){
 
-			//créer un compte
+/*			District district = districtService.findbyName(membre.getQuartier().getLibelle());
 
+			if(Objects.isNull(district))
+				throw new UserExceptions("Données incorrectes.",new Date());*/
+
+			//créer un compte
 
 			Account account = new Account();
 
@@ -73,7 +77,8 @@ public class UserController {
 					accountService.save(account);
 
 					log.info("saving member : {}",membre);
-					memberService.save(membre);
+				//	membre.setQuartier(district);
+					membre = memberService.save(membre);
 
 				} catch (Exception e) {
 					log.warn("error while saving user");

@@ -21,5 +21,7 @@ public interface DistrictService {
     Flux<District> findAllByArrondissement_Id(Long id);
 
     Optional<District> findOneById(Long id);
+
+    District findbyName(String name);
 }
 
